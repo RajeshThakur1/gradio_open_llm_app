@@ -71,10 +71,21 @@ async def generate_response(request:GenerateRequest):
 
 
 
-# def save_rating(rating_request:RatingRequest):
-#     conn = sqlite3.connect("llm_response.db")
-#     cursor = conn.cursor()
-#     cursor.
+@app.post("/api/save_rating")
+async def save_rating(rating_request: RatingRequest):
+    try:
+        conn = sqlite3.connect('llm_response.db')
+        cursor = conn.cursor()
+        cursor.execute("""
+            UPDATE responses
+            SET rating = ?
+            WHERE answer = ?
+        """, (rating_request.rating, rating_request.response))
+        conn.commit()
+        conn.close()
+        return {"status": "success"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
