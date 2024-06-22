@@ -1,2 +1,4 @@
 fastapi
 gradio
+sqlite3
+pydentic
