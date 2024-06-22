@@ -25,3 +25,12 @@ init_db()
 
 app = FastAPI()
 logging.basicConfig(level=logging.INFO)
+
+class GenerateRequest(BaseModel):
+    context: str
+    user_question: str
+    model: str = "llama3:latest"
+
+class RatingRequest(BaseModel):
+    response: str
+    rating: int
