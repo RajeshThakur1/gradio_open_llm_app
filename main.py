@@ -55,6 +55,17 @@ async def generate_response(request:GenerateRequest):
     if response.status_code == 200:
         generated_response = response.json()
         answer = generated_response.get('response')
+
+        ## storing the response into the database
+        conn = sqlite3.connect('llm_response.db')
+        cursor = conn.cursor()
+        cursor.execute("""
+                    INSERT INTO responses (context, question, answer)
+                    VALUES (?, ?, ?)
+                """, (request.context, request.user_question, answer))
+        conn.commit()
+        conn.close()
+
         return {'response': answer}
 
 
