@@ -19,7 +19,6 @@ def submit_rating(response_text, rating):
         return f"Failed to submit rating: {response.status_code}"
     return "No rating submitted"
 
-
 with gr.Blocks() as iface:
     with gr.Row():
         context_input = gr.Textbox(label="Context")
